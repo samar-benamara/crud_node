@@ -1,8 +1,8 @@
 import Book from "../models/book.js";
 
 export const fetchBooks = async (req, res) => {
-  const Books = await Book.find();
-  res.status(201).json({ model: Books, message: " Success " });
+  const books = await Book.find();
+  res.status(201).json({ model: books, message: " Success " });
 };
 
 export const addBook = async (req, res) => {
