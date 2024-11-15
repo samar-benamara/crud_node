@@ -2,7 +2,9 @@ import express from "express";
 const app = express();
 app.use(express.json());
 import mongoose, { model } from "mongoose";
+import routerCategory from "./routes/category.js";
 import routerBook from "./routes/book.js";
+import routerAuthor from "./routes/author.js";
 
 mongoose
   .connect("mongodb://localhost:27017/bookDB")
@@ -14,4 +16,6 @@ mongoose
   });
 
 app.use("/api/books", routerBook);
+app.use("/api/authors", routerAuthor);
+app.use("/api/categories", routerCategory);
 export default app;

@@ -14,7 +14,11 @@ export const addBook = async (req, res) => {
 
 export const getBookById = async (req, res) => {
   console.log("id", req.params.id);
-  const book = await Book.findOne({ _id: req.params.id });
+  const book = await Book.findOne({ _id: req.params.id })
+    .populate("author")
+    .populate("categories");
+  // .exec();
+  console.log(book.categories.map((x) => x));
   res.status(201).json({ model: book, message: " Success " });
 };
 
