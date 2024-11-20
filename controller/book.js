@@ -1,4 +1,5 @@
 import Book from "../models/book.js";
+import Author from "../models/author.js";
 
 export const fetchBooks = async (req, res) => {
   const books = await Book.find();
@@ -10,6 +11,28 @@ export const addBook = async (req, res) => {
   const book = new Book(req.body);
   await book.save();
   res.status(201).json({ model: book, message: " Success " });
+};
+export const createBook = async (req, res) => {
+  try {
+    const { title, author, categories } = req.body;
+
+    const existAuthor = await Author.findById(author);
+    if (!existAuthor) {
+      return res.status(404).json({ message: "Author not found" });
+    }
+    const newBook = new Book({
+      title,
+      author,
+      categories,
+    });
+    const savedBook = await newBook.save();
+
+    res.status(201).json(savedBook);
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "Could not create a book", error: error.message });
+  }
 };
 
 export const getBookById = async (req, res) => {
