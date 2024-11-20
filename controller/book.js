@@ -15,10 +15,15 @@ export const addBook = async (req, res) => {
 export const createBook = async (req, res) => {
   try {
     const { title, author, categories } = req.body;
-
     const existAuthor = await Author.findById(author);
     if (!existAuthor) {
       return res.status(404).json({ message: "Author not found" });
+    }
+    const existingBooks = await Book.find({ author });
+    if (existingBooks.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "Author must have written at least one book before" });
     }
     const newBook = new Book({
       title,
